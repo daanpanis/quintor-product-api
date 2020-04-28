@@ -2,22 +2,21 @@ package nl.quintor.dpanis.productapi.entities;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class Product extends BaseEntity {
 
     @NotBlank
     @Column(nullable = false, unique = true)
