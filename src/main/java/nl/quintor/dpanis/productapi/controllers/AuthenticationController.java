@@ -12,10 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -36,7 +33,7 @@ public class AuthenticationController {
 
     @PostMapping("/generate-token")
     @ResponseStatus(HttpStatus.OK)
-    public AuthToken generateToken(@Valid LoginModel model) {
+    public AuthToken generateToken(@Valid @RequestBody LoginModel model) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(model.getEmail(), model.getPassword())
         );

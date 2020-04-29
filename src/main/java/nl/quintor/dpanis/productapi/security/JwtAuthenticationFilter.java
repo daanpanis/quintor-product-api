@@ -3,8 +3,6 @@ package nl.quintor.dpanis.productapi.security;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import nl.quintor.dpanis.productapi.config.JwtConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String username = null;
         String authToken = null;
         if (header != null && header.startsWith(config.getTokenPrefix())) {
-            authToken = header.replace(config.getTokenPrefix(), "");
+            authToken = header.replace(config.getTokenPrefix(), "").trim();
             try {
                 username = tokenProvider.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {

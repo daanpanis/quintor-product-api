@@ -6,11 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
-    @Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
-    List<Product> searchName(String searchQuery);
+    Optional<Product> findByName(String name);
 
 }

@@ -1,6 +1,7 @@
 package nl.quintor.dpanis.productapi.validation;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -19,6 +20,10 @@ public @interface FieldsValueMatch {
     String field();
 
     String fieldMatch();
+
+    Class<? extends Payload>[] payload() default {};
+
+    Class<?>[] groups() default {};
 
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)

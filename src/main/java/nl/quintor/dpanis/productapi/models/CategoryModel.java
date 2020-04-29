@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,13 +12,14 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LoginModel {
+public class CategoryModel {
 
     @NotNull
-    @Email
-    private String email;
-    @NotNull
-    @Size(min = 1)
-    private String password;
+    @Size(min = 2, max = 100)
+    private String name;
+
+    @NotNull()
+    @Size(min = 5, max = 3000)
+    private String description;
 
 }

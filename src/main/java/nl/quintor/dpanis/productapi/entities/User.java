@@ -6,7 +6,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Credits go to: https://www.baeldung.com/role-and-privilege-for-spring-security-registration
@@ -37,6 +36,9 @@ public class User extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> roles;
+    private Collection<Role> roles;
+
+    @OneToMany(targetEntity = CartItem.class, mappedBy = "user", fetch = FetchType.LAZY)
+    private Collection<CartItem> cart;
 
 }

@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nl.quintor.dpanis.productapi.validation.FieldsValueMatch;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +28,7 @@ public class RegistrationModel {
     private String lastName;
 
     @NotNull
+    @NotBlank
     @Email
     private String email;
 

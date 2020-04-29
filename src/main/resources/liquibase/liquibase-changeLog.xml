@@ -1,5 +1,8 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet author="Daan (generated)" id="1588071158927-1">
         <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
     </changeSet>
@@ -33,6 +36,132 @@
         <addUniqueConstraint columnNames="name" constraintName="UC_PRODUCTNAME_COL" tableName="product"/>
     </changeSet>
     <changeSet author="Daan (generated)" id="1588071158927-5">
-        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="product" constraintName="FK1mtsbur82frn64de7balymq9s" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="product"
+                                 constraintName="FK1mtsbur82frn64de7balymq9s" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-2">
+        <createTable tableName="privilege">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="privilegePK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-3">
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="rolePK"/>
+            </column>
+            <column defaultValueBoolean="false" name="default_role" type="BOOLEAN"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-4">
+        <createTable tableName="roles_privileges">
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="privilege_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-5">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="userPK"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token_expired" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-6">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-7">
+        <addUniqueConstraint columnNames="name" constraintName="UC_PRIVILEGENAME_COL" tableName="privilege"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-8">
+        <addUniqueConstraint columnNames="name" constraintName="UC_ROLENAME_COL" tableName="role"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-9">
+        <addUniqueConstraint columnNames="email" constraintName="UC_USEREMAIL_COL" tableName="user"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-10">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_roles"
+                                 constraintName="FK55itppkw3i07do3h7qoclqd4k" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-11">
+        <addForeignKeyConstraint baseColumnNames="privilege_id" baseTableName="roles_privileges"
+                                 constraintName="FK5yjwxw2gvfyu76j3rgqwo685u" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="privilege"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-12">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="roles_privileges"
+                                 constraintName="FK9h2vewsqh8luhfq71xokh4who" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588090928183-13">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_roles"
+                                 constraintName="FKrhfovtciq1l558cw6udg0h0d3" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588161485384-2">
+        <addColumn tableName="category">
+            <column name="description" type="varchar(3000)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588161485384-3">
+        <addColumn tableName="category">
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588161485384-4">
+        <addUniqueConstraint columnNames="name" constraintName="UC_CATEGORYNAME_COL" tableName="category"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588184155304-2">
+        <addColumn tableName="product">
+            <column name="price" type="float8">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>

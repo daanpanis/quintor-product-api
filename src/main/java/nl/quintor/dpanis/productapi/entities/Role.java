@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Credits go to: https://www.baeldung.com/role-and-privilege-for-spring-security-registration
@@ -23,12 +22,13 @@ public class Role extends BaseEntity {
     private boolean defaultRole;
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
+    @ManyToMany
     @JoinTable(
             name = "roles_privileges",
             joinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "privilege_id", referencedColumnName = "id"))
-    private Set<Privilege> privileges;
+    private Collection<Privilege> privileges;
 
 }
