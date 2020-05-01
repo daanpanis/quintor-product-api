@@ -164,4 +164,26 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet author="Daan (generated)" id="1588186384152-2">
+        <createTable tableName="cart_items">
+            <column name="amount" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588186384152-3">
+        <addPrimaryKey columnNames="product_id, user_id" constraintName="cart_itemsPK" tableName="cart_items"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588186384152-4">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="cart_items" constraintName="FKkjv4yjjdlt4hd9ayey6mti09m" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Daan (generated)" id="1588186384152-5">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="cart_items" constraintName="FKl7je3auqyq1raj52qmwrgih8x" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="product" validate="true"/>
+    </changeSet>
 </databaseChangeLog>

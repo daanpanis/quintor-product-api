@@ -38,7 +38,7 @@ public class User extends BaseEntity {
     )
     private Collection<Role> roles;
 
-    @OneToMany(targetEntity = CartItem.class, mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id.user", fetch = FetchType.LAZY)
     private Collection<CartItem> cart;
 
 }

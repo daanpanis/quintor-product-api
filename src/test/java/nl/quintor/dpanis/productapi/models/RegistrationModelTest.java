@@ -24,14 +24,12 @@ class RegistrationModelTest extends ModelTest<RegistrationModel> {
     @Test
     void testFirstNameConstraints() {
         testField(model -> model.setFirstName(null), "firstName", NotNull.class);
-        testField(model -> model.setFirstName(""), "firstName", NotBlank.class);
         sizeTest("firstName", RegistrationModel::setFirstName, 2, 50);
     }
 
     @Test
     void testLastNameConstraints() {
         testField(model -> model.setLastName(null), "lastName", NotNull.class);
-        testField(model -> model.setLastName(""), "lastName", NotBlank.class);
         sizeTest("lastName", RegistrationModel::setLastName, 2, 50);
     }
 

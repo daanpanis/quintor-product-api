@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/authentication")
@@ -33,7 +34,7 @@ public class AuthenticationController {
 
     @PostMapping("/generate-token")
     @ResponseStatus(HttpStatus.OK)
-    public AuthToken generateToken(@Valid @RequestBody LoginModel model) {
+    public AuthToken generateToken(@RequestBody @Valid LoginModel model) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(model.getEmail(), model.getPassword())
         );
@@ -41,9 +42,9 @@ public class AuthenticationController {
         return new AuthToken(tokenProvider.generateToken(authentication));
     }
 
-    @PostMapping("/register")
+    @PutMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public User register(@Valid RegistrationModel model) {
+    public User register(@RequestBody @Valid RegistrationModel model) {
         return this.userService.registerUser(model);
     }
 }

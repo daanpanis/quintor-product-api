@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -11,23 +13,42 @@ import javax.validation.constraints.Min;
 @Getter
 @Setter
 @ToString
-@Table(
-        indexes = {
-                @Index(name = "CART_ITEM_USER_PRODUCT_INDEX", unique = true, columnList = "user_id,product_id"),
-                @Index(name = "CART_ITEM_USER_INDEX", columnList = "user_id")
-        }
-)
+@Table(name = "cart_items")
+public class CartItem {
 
-public class CartItem extends BaseEntity {
-
-    @ManyToOne
-    @Column(name = "user_id")
-    private User user;
-    @ManyToOne
-    @Column(name = "product_id")
-    private Product product;
+    @EmbeddedId
+    private CartItemId id;
 
     @Min(0)
     private int amount;
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    @Embeddable
+    public static class CartItemId implements Serializable {
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id")
+        private User user;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "product_id")
+        private Product product;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CartItemId that = (CartItemId) o;
+            return Objects.equals(user, that.user) &&
+                    Objects.equals(product, that.product);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(user, product);
+        }
+    }
 
 }

@@ -1,5 +1,6 @@
 package nl.quintor.dpanis.productapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Role extends BaseEntity {
     @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean defaultRole;
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Collection<User> users;
     @ManyToMany
     @JoinTable(

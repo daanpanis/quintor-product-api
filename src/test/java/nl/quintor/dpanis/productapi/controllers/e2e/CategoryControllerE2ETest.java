@@ -125,8 +125,10 @@ public class CategoryControllerE2ETest extends E2ETest {
     @Test
     void testCreateUnauthorized() {
         givenUnauthorized()
+                .body(new CategoryModel("test category", "test category description"))
                 .when().put(url("category"))
                 .then().statusCode(is(HttpStatus.FORBIDDEN.value()));
+        assertFalse(repository.findAll().iterator().hasNext());
     }
 
     @Test
@@ -155,7 +157,8 @@ public class CategoryControllerE2ETest extends E2ETest {
         CategoryModel model = new CategoryModel();
         givenAuthorized().body(model)
                 .when().put(url("category"))
-                .then().statusCode(is(HttpStatus.BAD_REQUEST.value()));
+                .then().statusCode(is(HttpStatus.BAD_REQUEST.value()))
+                .header("Content-Type", containsString("json"));
         assertFalse(repository.findAll().iterator().hasNext());
     }
 

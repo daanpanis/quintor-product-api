@@ -40,7 +40,7 @@ public class Product extends BaseEntity {
     @JoinColumn(nullable = false)
     private Category category;
 
-    @OneToMany(targetEntity = CartItem.class, mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "id.product", fetch = FetchType.LAZY)
     private Collection<CartItem> cart;
 
 }

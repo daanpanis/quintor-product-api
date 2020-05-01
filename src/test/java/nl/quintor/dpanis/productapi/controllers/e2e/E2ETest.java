@@ -16,6 +16,7 @@ import nl.quintor.dpanis.productapi.security.TokenProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,15 +25,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.restassured.RestAssured.config;
 import static io.restassured.RestAssured.given;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application.test.properties")
 public abstract class E2ETest {
@@ -52,17 +54,13 @@ public abstract class E2ETest {
     @BeforeAll
     static void setupClass() {
         RestAssured.config = RestAssuredConfig.config().objectMapperConfig(new ObjectMapperConfig().jackson2ObjectMapperFactory(
-                (type, s) -> {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-                    return objectMapper;
-                }
+                (type, s) -> new ObjectMapper()
         ));
     }
 
     protected static UserRepository userRepository;
-    private static RoleRepository roleRepository;
-    private static PrivilegeRepository privilegeRepository;
+    protected static RoleRepository roleRepository;
+    protected static PrivilegeRepository privilegeRepository;
     protected static String authorizedToken;
     protected static String unauthorizedToken;
     protected static final String authorizedEmail = "authorized@user.com";
@@ -140,11 +138,11 @@ public abstract class E2ETest {
     }
 
     Role createRole(String name, Collection<Privilege> privileges) {
-        Role authorizedRole = new Role();
-        authorizedRole.setName(name);
-        authorizedRole.setPrivileges(privileges);
-        roleRepository.save(authorizedRole);
-        return authorizedRole;
+        Role role = new Role();
+        role.setName(name);
+        role.setPrivileges(privileges);
+        roleRepository.save(role);
+        return role;
     }
 
     protected String url(String path) {
@@ -160,6 +158,10 @@ public abstract class E2ETest {
     }
 
     protected RequestSpecification givenWithToken(String token) {
-        return given().header(tokenHeader, token).header("Content-Type", "application/json");
+        return givenJson().header(tokenHeader, token);
+    }
+
+    protected RequestSpecification givenJson() {
+        return given().header("Content-Type", "application/json");
     }
 }

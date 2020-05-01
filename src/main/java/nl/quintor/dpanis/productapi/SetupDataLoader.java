@@ -82,7 +82,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                             passwordEncoder.encode("adminpassword"),
                             true,
                             true,
-                            Collections.singleton(adminRole)
+                            Collections.singleton(adminRole),
+                            null
                     )
             );
         }

@@ -30,19 +30,29 @@ class UserServiceImplTest {
 
     @Mock
     UserRepository userRepository;
-
     @Mock
     RoleRepository roleRepository;
-
     @Mock
     PasswordEncoder passwordEncoder;
-
     UserServiceImpl service;
 
     @BeforeEach
     public void setup() {
         service = new UserServiceImpl(userRepository, roleRepository, passwordEncoder);
     }
+
+    @Test
+    void registerExistingUser() {
+        when(userRepository.findByEmail(any())).thenReturn(new User());
+
+        RegistrationModel model = defaultModel();
+        assertThrows(EmailExistsException.class, () -> service.registerUser(model));
+        verify(userRepository, times(1)).findByEmail(model.getEmail());
+        verify(roleRepository, times(0)).defaultRoleTrue();
+        verify(passwordEncoder, times(0)).encode(any());
+        verify(userRepository, times(0)).save(any());
+    }
+
 
     @Test
     void registerSuccess() {
@@ -65,7 +75,7 @@ class UserServiceImplTest {
     }
 
 
-    @Test
+/*    @Test
     void registerExistingUser() {
         when(userRepository.findByEmail(any())).thenReturn(new User());
 
@@ -75,7 +85,7 @@ class UserServiceImplTest {
         verify(roleRepository, times(0)).defaultRoleTrue();
         verify(passwordEncoder, times(0)).encode(any());
         verify(userRepository, times(0)).save(any());
-    }
+    }*/
 
     @Test
     void registerNoDefaultRows() {

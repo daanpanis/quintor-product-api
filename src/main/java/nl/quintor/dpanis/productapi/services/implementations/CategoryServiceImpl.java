@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category byId(Long id) {
-        return null;
+        return checkCategoryExists(id);
     }
 
     @Override
